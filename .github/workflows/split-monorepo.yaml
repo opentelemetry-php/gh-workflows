@@ -8,6 +8,7 @@ on:
     types: [published]
   create:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   gitsplit:
