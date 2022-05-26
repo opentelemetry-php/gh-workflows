@@ -2,11 +2,24 @@
 name: PHP Composer
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_call:
+      inputs:
+        matrix_php_version:
+          default: '["7.4", "8.0", "8.1"]'
+          required: true
+          type: string
+        matrix_os:
+          default: '[ubuntu-latest]'
+          required: true
+          type: string
+        matrix_extension:
+          default: '["ast"]'
+          required: true
+          type: string
+        matrix_experimental:
+          default: '[false]'
+          required: true
+          type: string
 
 jobs:
   build:
@@ -16,10 +29,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.4', '8.0', '8.1']
-        os: [ubuntu-latest]
-        extensions: ['ast, grpc', 'ast, grpc, protobuf-3.20.0']
-        experimental: [false]
+        php-version: ${{ inputs.matrix_php_version }}
+        os: ${{ inputs.matrix_php_version }}
+        extensions: ${{ inputs.matrix_php_version }}
+        experimental: ${{ inputs.matrix_php_version }}
 
     steps:
     - uses: actions/checkout@v2
