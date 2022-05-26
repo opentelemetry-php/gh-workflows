@@ -9,7 +9,7 @@ on:
           required: false
           type: string
         matrix_os:
-          default: '[ubuntu-latest]'
+          default: '["ubuntu-latest"]'
           required: false
           type: string
         matrix_extension:
