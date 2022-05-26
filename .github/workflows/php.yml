@@ -29,10 +29,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ${{ inputs.matrix_php_version }}
-        os: ${{ inputs.matrix_php_version }}
-        extensions: ${{ inputs.matrix_php_version }}
-        experimental: ${{ inputs.matrix_php_version }}
+        php-version: fromJSON(${{ inputs.matrix_php_version }})
+        os: fromJSON(${{ inputs.matrix_php_version }})
+        extensions: fromJSON(${{ inputs.matrix_php_version }})
+        experimental: fromJSON(${{ inputs.matrix_php_version }})
 
     steps:
     - uses: actions/checkout@v2
