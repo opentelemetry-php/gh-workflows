@@ -6,19 +6,19 @@ on:
       inputs:
         matrix_php_version:
           default: '["7.4", "8.0", "8.1"]'
-          required: true
+          required: false
           type: string
         matrix_os:
           default: '[ubuntu-latest]'
-          required: true
+          required: false
           type: string
         matrix_extension:
           default: '["ast"]'
-          required: true
+          required: false
           type: string
         matrix_experimental:
           default: '[false]'
-          required: true
+          required: false
           type: string
 
 jobs:
