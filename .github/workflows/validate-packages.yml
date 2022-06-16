@@ -18,6 +18,10 @@ on:
           default: '[false]'
           required: false
           type: string
+        install_directory:
+          default: '/tmp/'
+          required: false
+          type: string
 
 jobs:
   validate:
@@ -57,4 +61,4 @@ jobs:
       run: vendor/bin/otel packages:composer:validate
 
     - name: Validate packages installation
-      run: vendor/bin/otel packages:validate:installation -p "nyholm/psr7:^1.4" -p "symfony/http-client:^4.4|^5.3|^6.0"
+      run: vendor/bin/otel packages:validate:installation -p "nyholm/psr7:^1.4" -p "symfony/http-client:^4.4|^5.3|^6.0" --directory=${{ inputs.install_directory }}
