@@ -55,7 +55,7 @@ jobs:
 
     - name: Install dependencies
       #if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress --no-suggest --no-scripts --no-interaction --no-plugins --ignore-platform-reqs
+      run: composer install --prefer-dist --no-progress --no-suggest --no-scripts --no-interaction --no-plugins
 
     - name: Create install directory
       run: mkdir -p ${{ inputs.install_directory }}/${{ matrix.php-version }}
