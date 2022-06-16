@@ -51,7 +51,7 @@ jobs:
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress --no-suggest --no-scripts --no-interaction --no-plugins
+      run: composer install --prefer-dist --no-progress --no-suggest --no-scripts --no-interaction --no-plugins --ignore-platform-reqs
 
     - name: Validate packages composer.json
       run: vendor/bin/otel packages:composer:validate
