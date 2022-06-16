@@ -44,17 +44,17 @@ jobs:
         php-version: ${{ matrix.php-version }}
         extensions: ${{ matrix.extensions }}
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ runner.os }}-${{ matrix.php-version }}-php-${{ hashFiles('**/composer.json') }}
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.php-version }}-php-
+    #- name: Cache Composer packages
+    #  id: composer-cache
+    #  uses: actions/cache@v2
+    #  with:
+    #    path: vendor
+    #    key: ${{ runner.os }}-${{ matrix.php-version }}-php-${{ hashFiles('**/composer.json') }}
+    #    restore-keys: |
+    #      ${{ runner.os }}-${{ matrix.php-version }}-php-
 
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
+      #if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest --no-scripts --no-interaction --no-plugins --ignore-platform-reqs
 
     - name: Create install directory
