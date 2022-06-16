@@ -24,7 +24,7 @@ on:
 jobs:
   build:
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ fromJSON(inputs.matrix_os) }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
