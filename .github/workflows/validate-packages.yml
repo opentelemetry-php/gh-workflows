@@ -1,0 +1,60 @@
+name: Validate Packages
+on:
+  workflow_call:
+      inputs:
+        matrix_php_version:
+          default: '["7.4", "8.0", "8.1"]'
+          required: false
+          type: string
+        matrix_os:
+          default: '["ubuntu-latest"]'
+          required: false
+          type: string
+        matrix_extension:
+          default: '["ast"]'
+          required: false
+          type: string
+        matrix_experimental:
+          default: '[false]'
+          required: false
+          type: string
+
+jobs:
+  gitsplit:
+    runs-on: ${{ fromJSON(inputs.matrix_os) }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ${{ fromJSON(inputs.matrix_php_version) }}
+        os: ${{ fromJSON(inputs.matrix_os) }}
+        extensions: ${{ fromJSON(inputs.matrix_extension) }}
+        experimental: ${{ fromJSON(inputs.matrix_experimental) }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: ${{ matrix.extensions }}
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-${{ matrix.php-version }}-php-${{ hashFiles('**/composer.json') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ matrix.php-version }}-php-
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress --no-suggest --no-scripts --no-interaction --no-plugins
+
+    - name: Validate packages composer.json
+            run: vendor/bin/otel packages:composer:validate
+
+    - name: Validate packages installation
+            run: vendor/bin/otel packages:validate:installation -p "nyholm/psr7:^1.4" -p "symfony/http-client:^4.4|^5.3|^6.0"
