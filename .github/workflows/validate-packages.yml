@@ -57,8 +57,11 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest --no-scripts --no-interaction --no-plugins --ignore-platform-reqs
 
+    - name: Create install directory
+      run: mkdir -p ${{ inputs.install_directory }}/${{ matrix.php-version }}
+
     - name: Validate packages composer.json
       run: vendor/bin/otel packages:composer:validate
 
     - name: Validate packages installation
-      run: vendor/bin/otel packages:validate:installation -p "nyholm/psr7:^1.4" -p "symfony/http-client:^4.4|^5.3|^6.0" --directory=${{ inputs.install_directory }}
+      run: vendor/bin/otel packages:validate:installation -p "nyholm/psr7:^1.4" -p "symfony/http-client:^4.4|^5.3|^6.0" --directory=${{ inputs.install_directory }}/${{ matrix.php-version }}
