@@ -3,7 +3,7 @@ on:
   workflow_call:
       inputs:
         matrix_php_version:
-          default: '["7.4", "8.0", "8.1"]'
+          default: '["7.4", "8.0", "8.1", "8.2"]'
           required: false
           type: string
         matrix_os:
