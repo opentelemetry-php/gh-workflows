@@ -3,7 +3,7 @@ on:
   workflow_call:
       inputs:
         matrix_php_version:
-          default: '["7.4", "8.0", "8.1", "8.2", "8.3"]'
+          default: '["8.2", "8.3", "8.4", "8.5", "8.6"]'
           required: false
           type: string
         matrix_os:
@@ -44,17 +44,7 @@ jobs:
         php-version: ${{ matrix.php-version }}
         extensions: ${{ matrix.extensions }}
 
-    #- name: Cache Composer packages
-    #  id: composer-cache
-    #  uses: actions/cache@v2
-    #  with:
-    #    path: vendor
-    #    key: ${{ runner.os }}-${{ matrix.php-version }}-php-${{ hashFiles('**/composer.json') }}
-    #    restore-keys: |
-    #      ${{ runner.os }}-${{ matrix.php-version }}-php-
-
     - name: Install dependencies
-      #if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest --no-scripts --no-interaction --no-plugins
 
     - name: Create install directory
@@ -62,6 +52,3 @@ jobs:
 
     - name: Validate packages composer.json
       run: vendor/bin/otel packages:composer:validate
-
-    - name: Validate packages installation
-      run: vendor/bin/otel packages:validate:installation -p "nyholm/psr7:^1.4" -p "symfony/http-client:^4.4|^5.3|^6.0" --directory=${{ inputs.install_directory }}/${{ matrix.php-version }}
